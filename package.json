@@ -1,0 +1,21 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "2020-day1": "nodemon 2020/day1/index.js",
+    "2020-day2": "cd 2020/day2/ && nodemon index.js",
+    "2020-day3": "cd 2020/day3/ && nodemon index.js",
+    "2020-day4": "cd 2020/day4/ && nodemon index.js",
+    "2020-day5": "cd 2020/day5/ && nodemon index.js",
+    "2020-day6": "cd 2020/day6/ && nodemon index.js",
+    "2020-day7": "cd 2020/day7/ && nodemon index.js",
+    "2020-day8": "cd 2020/day8/ && nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
