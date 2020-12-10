@@ -17,7 +17,6 @@ const parseInstructions = (instructionList) => {
   let acc = 0
   let pointer = 0
   while (!repeated) {
-    console.log(instructionList[pointer]);
     if (instructionList[pointer].executed === true) return { acc, finished: false }
 
     instructionList[pointer].executed = true
@@ -36,12 +35,9 @@ const parseInstructions = (instructionList) => {
 
 const findInstructionToChange = (instructionList) => {
   for (let pointer = 0; pointer < instructionList.length; pointer++) {
-    console.log(instructionList);
     const newInstructions = JSON.parse(JSON.stringify(instructionList))
     if (instructionList[pointer].instruction === "nop") {
-
       newInstructions[pointer].instruction = "jmp"
-      console.log(newInstructions);
     } else if (instructionList[pointer].instruction === "jmp") {
       newInstructions[pointer].instruction = "nop"
     }

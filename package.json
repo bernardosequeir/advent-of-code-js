@@ -11,7 +11,9 @@
     "2020-day5": "cd 2020/day5/ && nodemon index.js",
     "2020-day6": "cd 2020/day6/ && nodemon index.js",
     "2020-day7": "cd 2020/day7/ && nodemon index.js",
-    "2020-day8": "cd 2020/day8/ && nodemon index.js"
+    "2020-day8": "cd 2020/day8/ && nodemon index.js",
+    "2020-day9": "cd 2020/day9/ && nodemon index.js",
+    "2020-day10": "cd 2020/day10/ && nodemon index.js"
   },
   "author": "",
   "license": "ISC",
