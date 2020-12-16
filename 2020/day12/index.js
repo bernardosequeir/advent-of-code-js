@@ -87,7 +87,7 @@ const calculateDirection = (currentDirection, code, value) => {
 
 }
 
-const transverseSpace = (instructions) => {
+const transverseSpacePart1 = (instructions) => {
 
   let currentDirection = "E"
 
@@ -106,4 +106,15 @@ const transverseSpace = (instructions) => {
   return Math.abs(x) + Math.abs(y)
 }
 
-console.log(transverseSpace(inputData))
+const transverseSpacePart2 = (instructions) => {
+  let coordinates = { x: 0, y: 0 }
+  let waypointCoordinates = { x: 10, y: 1 }
+
+  instructions.forEach(instruction => {
+
+
+  })
+}
+
+console.log(transverseSpacePart1(inputData))
+
