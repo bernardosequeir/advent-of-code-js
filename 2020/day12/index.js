@@ -2,11 +2,17 @@ const fs = require('fs')
 
 const inputData = fs.readFileSync('input.txt', "utf-8").split("\n")
 
+
+const decodeInstruction = (instruction) => ({
+  code: instruction.split(/\d+/)[0],
+  value: parseInt(instruction.split(/[a-zA-Z]/)[1])
+})
 const parseInstruction = (instruction, currentDirection) => {
   const code = instruction.split(/\d+/)[0]
   const value = parseInt(instruction.split(/[a-zA-Z]/)[1])
 
   let newX = 0
+
   let newY = 0
   if (code === "F") {
     if (currentDirection === "N") {
@@ -101,9 +107,36 @@ const transverseSpacePart1 = (instructions) => {
     x += newDirections.newX
     y += newDirections.newY
     currentDirection = newDirections.currentDirection
-    console.log(x, y, currentDirection);
   })
   return Math.abs(x) + Math.abs(y)
+}
+
+const rotateWaypoint = (coordinates, code, value) => {
+  if (code === "R") {
+    if (value === 90) {
+      return { x: coordinates.y, y: - coordinates.x }
+    } else if (value === 180) {
+      return { x: - coordinates.x, y: - coordinates.y }
+    } else if (value === 270) {
+      return { x: - coordinates.y, y: coordinates.x }
+    }
+  } else if (code === "L") {
+    if (value === 90) {
+      return { x: - coordinates.y, y: coordinates.x }
+    } else if (value === 180) {
+      return { x: - coordinates.x, y: - coordinates.y }
+    } else if (value === 270) {
+      return { x: coordinates.y, y: -coordinates.x }
+    }
+  }
+}
+
+const moveWaypoint = (waypointCoordinates, code, value) => {
+  if (code === "N") return { x: waypointCoordinates.x, y: waypointCoordinates.y + value }
+  if (code === "S") return { x: waypointCoordinates.x, y: waypointCoordinates.y - value }
+  if (code === "W") return { x: waypointCoordinates.x - value, y: waypointCoordinates.y }
+  if (code === "E") return { x: waypointCoordinates.x + value, y: waypointCoordinates.y }
+
 }
 
 const transverseSpacePart2 = (instructions) => {
@@ -111,10 +144,23 @@ const transverseSpacePart2 = (instructions) => {
   let waypointCoordinates = { x: 10, y: 1 }
 
   instructions.forEach(instruction => {
+    const code = instruction.split(/\d+/)[0]
+    const value = parseInt(instruction.split(/[a-zA-Z]/)[1])
+    if (code === "R" || code === "L") {
+      waypointCoordinates = { ...rotateWaypoint(waypointCoordinates, code, value) }
 
-
+    } else if (code !== "F") {
+      waypointCoordinates = { ...moveWaypoint(waypointCoordinates, code, value) }
+    } else {
+      coordinates.x += waypointCoordinates.x * value
+      coordinates.y += waypointCoordinates.y * value
+    }
+    console.log(waypointCoordinates);
+    console.log(coordinates);
   })
+
+  return Math.abs(coordinates.x) + Math.abs(coordinates.y)
 }
 
-console.log(transverseSpacePart1(inputData))
 
+console.log(transverseSpacePart2(inputData));
