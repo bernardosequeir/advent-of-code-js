@@ -1,4 +1,4 @@
-const { time } = require('console')
+
 const fs = require('fs')
 const inputData = fs.readFileSync('input.txt', 'utf-8').split('\n')
 
