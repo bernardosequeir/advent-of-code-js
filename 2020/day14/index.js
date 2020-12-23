@@ -1,6 +1,22 @@
 const fs = require('fs')
 const inputData = fs.readFileSync('input.txt', 'utf-8').split('\n')
 
+//adapted from : http://zacg.github.io/blog/2013/08/02/binary-combinations-in-javascript/
+const binaryCombos = (n) => {
+  var result = [];
+  for (y = 0; y < Math.pow(2, n); y++) {
+    var combo = [];
+    for (x = 0; x < n; x++) {
+      //shift bit and and it with 1
+      if ((y >> x) & 1)
+        combo.push(1);
+      else
+        combo.push(0);
+    }
+    result.push(combo);
+  }
+  return result;
+}
 
 const numberToBits = (decimal) => {
   let bits = Array.from(Array(36)).map(bit => 0)
@@ -45,7 +61,7 @@ const parseMemoryAssignment = (line) => {
 }
 
 
-const parseInstructions = (instrcutionList) => {
+const parseInstructionsPart1 = (instrcutionList) => {
   let mask = []
   const memory = {}
 
@@ -62,8 +78,61 @@ const parseInstructions = (instrcutionList) => {
 
   let sum = 0
   Object.values(memory).forEach(memoryValue => sum += bitsToNumber(memoryValue))
+  console.log(memory);
+  console.log(sum);
+}
+
+///Part 2
+
+const applyBitmaskPart2 = (mask, address) => {
+  const newAddress = [...address]
+  for (let i = 0; i < mask.length; i++) {
+    if (mask[i] === "X") {
+      newAddress[i] = "X"
+    } else if (mask[i] === "1") {
+      newAddress[i] = "1"
+    }
+  }
+  return newAddress
+}
+
+
+const decodeMemoryAdresses = (mask, decimalAsBits) => {
+  const memoryAdresses = []
+  const parsedAddress = applyBitmaskPart2(mask, decimalAsBits)
+  const combinations = binaryCombos(mask.filter(bit => bit === 'X').length)
+  combinations.forEach(combination => {
+    let newAddress = parsedAddress.join('')
+    combination.forEach(bit => {
+      newAddress = newAddress.replace('X', bit)
+    })
+    memoryAdresses.push(parseInt(newAddress, 2))
+  })
+
+  return memoryAdresses
+}
+
+
+const parseInstructionsPart2 = (instrutionList) => {
+  let mask = []
+  const memory = {}
+
+  instrutionList.forEach(instruction => {
+    if (instruction.startsWith('mask')) {
+      mask = parseBitmask(instruction)
+    } else {
+      let { address, decimal } = parseMemoryAssignment(instruction)
+      const addressAsBits = numberToBits(address)
+      const memoryAdresses = decodeMemoryAdresses(mask, addressAsBits)
+      memoryAdresses.forEach(address => memory[address] = decimal)
+    }
+  })
+
+  let sum = 0
+  Object.values(memory).forEach(memoryValue => sum += parseInt(memoryValue))
+
   console.log(sum);
 }
 
 
-parseInstructions(inputData)
+parseInstructionsPart2(inputData)
