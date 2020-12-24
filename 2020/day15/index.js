@@ -1,26 +1,26 @@
 const input = [1, 20, 11, 6, 12, 0]
 
 const memoryGame = (startingNumbers, turnLimit) => {
-  let turn = startingNumbers.length - 1
-  let numberList = [...startingNumbers]
-  let currentNumber = startingNumbers[turn - 1]
-  while (turn + 1 < turnLimit) {
-    if (turn === startingNumbers.length && numberList.filter(num => num === currentNumber).length === 1) {
+  let lastSaid = Array(turnLimit)
+  for (let i = 0; i < startingNumbers.length - 1; i++) {
+    lastSaid[startingNumbers[i]] = i + 1
+  }
+  let currentNumber = startingNumbers[startingNumbers.length - 1]
+  for (let turn = startingNumbers.length; turn < turnLimit; turn++) {
+    if (!lastSaid[currentNumber]) {
+      lastSaid[currentNumber] = turn
       currentNumber = 0
-      numberList.push(currentNumber)
-    }
-    else if (numberList.filter(num => num === currentNumber).length > 1) {
-      let turnsNumberAppeared = numberList.flatMap((number, index) => number === currentNumber ? index : [])
-
-      currentNumber = turn - turnsNumberAppeared[turnsNumberAppeared.length - 2]
-      numberList.push(currentNumber)
     }
     else {
-      currentNumber = 0
-      numberList.push(currentNumber)
+      let timeBefore = lastSaid[currentNumber]
+      lastSaid[currentNumber] = turn
+      currentNumber = turn - timeBefore
+
     }
-    turn++
   }
-  return numberList[turnLimit - 1]
+
+
+
+  return currentNumber
 }
-console.log(memoryGame([1, 20, 11, 6, 12, 0], 2020))
+console.log(memoryGame([1, 20, 11, 6, 12, 0], 30000000))
