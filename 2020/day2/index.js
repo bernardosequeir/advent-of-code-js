@@ -21,12 +21,12 @@ const validPasswordCounterPart2 = (passwordList) => {
   let validPasswords = 0
   passwordList.forEach(password => {
     const parts = password.split(' ')
-    const lowerPosition = parts[0].split('-')[0]
-    const upperPosition = parts[0].split('-')[1]
+    const lowerPosition = parts[0].split('-')[0] - 1
+    const upperPosition = parts[0].split('-')[1] - 1
     const character = parts[1].split(':')[0]
     const pass = parts[2]
-    const firstMatch = pass[lowerPosition - 1] === character
-    const lastMatch = pass[upperPosition - 1] === character
+    const firstMatch = pass[lowerPosition] === character
+    const lastMatch = pass[upperPosition] === character
     if (firstMatch ^ lastMatch) {
       console.log(pass, lowerPosition, upperPosition, character)
       validPasswords++
@@ -37,4 +37,4 @@ const validPasswordCounterPart2 = (passwordList) => {
 
 
 
-console.log(validPasswordCounterPart2(inputData.split("\n")))
+console.log(validPasswordCounterPart1(inputData.split("\n")))

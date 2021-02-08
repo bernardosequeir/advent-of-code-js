@@ -5,10 +5,11 @@ let inputData = fs.readFileSync('./input.txt', 'utf-8').split('\n\n') //already 
 let countGroupAnswersPart1 = (groupAnswers) => {
   let answerCount = groupAnswers.map(group => {
     const answers = group.split('\n').join('') // getting all the answers that span multiple lines into just one big string
-    return [... new Set(answers)].length
+    return new Set(answers).size
   })
   return answerCount.reduce((sum, element) => sum + element, 0)
 }
+
 let countGroupAnswersPart2 = (groupAnswers) => {
   let answerCount = groupAnswers.map(group => {
     const answers = group.split('\n')
@@ -21,5 +22,5 @@ let countGroupAnswersPart2 = (groupAnswers) => {
   })
   return answerCount.reduce((sum, element) => sum + element, 0)
 }
-//console.log(countGroupAnswersPart1(inputData))
+console.log(countGroupAnswersPart1(inputData))
 console.log(countGroupAnswersPart2(inputData))
